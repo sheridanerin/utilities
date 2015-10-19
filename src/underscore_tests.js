@@ -19,6 +19,8 @@ var _ = { };
     var newArr = [];
     if (n === undefined) {
       return array[0];
+    } else if (n >= array.length) {
+      return array;
     } else {
       for (var i = 0; i < n; i++) {
         newArr.push(array[i]);
@@ -33,10 +35,8 @@ var _ = { };
     var newArr = [];
     if (n === undefined) {
       return array[array.length - 1];
-    } else if (n  > array.length) {
-      array.forEach(function(element) {
-        newArr.unshift(element);
-      });
+    } else if (n  >= array.length) {
+      return array;
     } else {
       for (var i = array.length - 1; i > ((array.length - 1) - n); i--) {
         newArr.unshift(array[i]);
@@ -48,8 +48,16 @@ var _ = { };
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
   _.each = function(collection, iterator) {
-
-  };
+      if (Array.isArray(collection)) {
+        for (var i = 0; i < collection.length; i++) {
+          return iterator(collection[i], i, collection);
+        }
+      } else {
+        for (var key in collection) {
+          return iterator(collection[key], key, collection);
+        }
+      } 
+  }
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
@@ -57,49 +65,86 @@ var _ = { };
     if (array.indexOf(target) === -1) {
       return -1;
     } else {
-      return (array[array.indexOf(target)] + " " + target);
+      return (array.indexOf(target));
     }
   };
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, iterator) {
     var newArr = [];
-    colletion.forEach(function(element) {
-      if (element) {
-        newArr.push(element);
+      for (var i = 0; i < collection.length; i++) {
+        var answer = iterator(collection[i]);
+        if (answer) {
+          newArr.push(collection[i]);
+        }
       }
-    });
-    return newArr;
+      return newArr;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, iterator) {
+      var newArr = [];
+      for (var i = 0; i < collection.length; i++) {
+        if (!iterator(collection[i])) {
+          newArr.push(collection[i]);
+        }
+      }
+      return newArr;
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
-    var newArr
+    var newArr = [];
+    for (var i = 0; i < array.length; i++) {
+      array.forEach(function(element) {
+        if (newArr.indexOf(element) === -1) {
+          newArr.push(element);
+        }
+      });
+    }
+    return newArr;
   };
 
 
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
+    for(var i = 0; i < array.length; i++) {
+      return iterator(array[i]);
+    }
   };
 
-  // Takes an array of objects and returns and array of the values of
+  // Takes an array of objects and returns an array of the values of
   // a certain property in it. E.g. take an array of people and return
   // an array of just their ages
   _.pluck = function(array, propertyName) {
+    var newArr = [];
+    for (var i = 0; i < array.length; i++) {
+      for (var key in array[i]) {
+        if (array[i][key] === propertyName) {
+          newArr.push(array[i][key]);
+        }
+      }
+    }
+    return newArr;
   };
 
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName, args) {
+    for (var i = 0; i < list.length; i++) {
+      return list[i][methodName];
+    }
   };
 
   // Reduces an array or object to a single value by repetitively calling
   // iterator(previousValue, item) for each item. previousValue should be
   // the return value of the previous iterator call.
   _.reduce = function(collection, iterator, initialValue) {
+    var prevVal = iterator(collection[0]);
+    var currentVal;
+    for (var i = 1; i < collection.length; i++) {
+      currentVal = iterator(prevVal, collection[i]);
+    }
+    return currentVal;
   };
 
   // Determine if the array or object contains a given value (using `===`).
