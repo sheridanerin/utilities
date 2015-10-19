@@ -16,25 +16,60 @@ var _ = { };
   // Return an array of the first n elements of an array. If n is undefined,
   // return just the first element.
   _.first = function(array, n) {
+    var newArr = [];
+    if (n === undefined) {
+      return array[0];
+    } else {
+      for (var i = 0; i < n; i++) {
+        newArr.push(array[i]);
+      }
+      return newArr;
+    }
   };
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
+    var newArr = [];
+    if (n === undefined) {
+      return array[array.length - 1];
+    } else if (n  > array.length) {
+      array.forEach(function(element) {
+        newArr.unshift(element);
+      });
+    } else {
+      for (var i = array.length - 1; i > ((array.length - 1) - n); i--) {
+        newArr.unshift(array[i]);
+      }
+      return newArr;
+    }
   };
 
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
   _.each = function(collection, iterator) {
+
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target){
+    if (array.indexOf(target) === -1) {
+      return -1;
+    } else {
+      return (array[array.indexOf(target)] + " " + target);
+    }
   };
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, iterator) {
+    var newArr = [];
+    colletion.forEach(function(element) {
+      if (element) {
+        newArr.push(element);
+      }
+    });
+    return newArr;
   };
 
   // Return all elements of an array that don't pass a truth test.
@@ -43,6 +78,7 @@ var _ = { };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var newArr
   };
 
 
