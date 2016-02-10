@@ -33,17 +33,13 @@ var _ = { };
   // last element.
   _.last = function(array, n) {
     var newArr = [];
-    if (n === undefined) {
-      return array[array.length - 1];
-    } else if (n  >= array.length) {
-      return array;
-    } else {
-      for (var i = array.length - 1; i > ((array.length - 1) - n); i--) {
-        newArr.unshift(array[i]);
-      }
-      return newArr;
+    if(!n){
+      return array[array.length - 1]
+    } else if(n > array.length){
+      n = array.length
     }
-  };
+    return array.slice(array.length - n, array.length)
+  }
 
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
@@ -149,6 +145,7 @@ var _ = { };
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
+    
   };
 
 
